@@ -1,6 +1,7 @@
 package com.ltp.hiendsystemstesttask.controller;
 
 import com.ltp.hiendsystemstesttask.model.dto.JwtResponse;
+import com.ltp.hiendsystemstesttask.model.dto.UserLoginRequest;
 import com.ltp.hiendsystemstesttask.model.dto.UserRegisterRequest;
 import com.ltp.hiendsystemstesttask.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,19 @@ public class AuthController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity register(@Validated @RequestBody UserRegisterRequest userRegisterRequest) {
         final Optional<JwtResponse> response = userService.registerUser(userRegisterRequest);
+
+        if(response.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.FOUND).build();
+        }
+
+        return ResponseEntity.ok(response.get());
+    }
+
+    @PostMapping(value = "/login",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity login(@Validated @RequestBody UserLoginRequest userLoginRequest) {
+        final Optional<JwtResponse> response = userService.loginUser(userLoginRequest);
 
         if(response.isEmpty()) {
             return ResponseEntity.status(HttpStatus.FOUND).build();

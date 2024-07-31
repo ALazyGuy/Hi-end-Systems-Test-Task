@@ -1,6 +1,7 @@
 package com.ltp.hiendsystemstesttask.service.impl;
 
 import com.ltp.hiendsystemstesttask.model.dto.JwtResponse;
+import com.ltp.hiendsystemstesttask.model.dto.UserLoginRequest;
 import com.ltp.hiendsystemstesttask.model.dto.UserRegisterRequest;
 import com.ltp.hiendsystemstesttask.model.entity.UserEntity;
 import com.ltp.hiendsystemstesttask.model.entity.UserRole;
@@ -36,6 +37,25 @@ public class UserServiceImpl implements UserService {
         userRepository.save(userEntity);
 
         final String token = jwtUtils.generateToken(userRegisterRequest.getUsername());
+        final JwtResponse response = new JwtResponse(token);
+        return Optional.of(response);
+    }
+
+    @Override
+    public Optional<JwtResponse> loginUser(final UserLoginRequest userLoginRequest) {
+        final Optional<UserEntity> userEntityOptional =
+                userRepository.findByUsername(userLoginRequest.getUsername());
+
+        if(userEntityOptional.isEmpty()) {
+            return Optional.empty();
+        }
+
+        final UserEntity userEntity = userEntityOptional.get();
+        if(!passwordEncoder.matches(userLoginRequest.getPassword(), userEntity.getPassHash())) {
+            return Optional.empty();
+        }
+
+        final String token = jwtUtils.generateToken(userLoginRequest.getUsername());
         final JwtResponse response = new JwtResponse(token);
         return Optional.of(response);
     }
