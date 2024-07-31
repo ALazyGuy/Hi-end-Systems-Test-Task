@@ -5,3 +5,6 @@ spring:
     username: postgres
     password: root
     url: "jdbc:postgresql://localhost:5432/testtask"
+  jpa:
+    hibernate:
+      ddl-auto: validate
