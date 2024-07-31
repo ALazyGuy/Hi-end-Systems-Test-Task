@@ -11,5 +11,6 @@ spring:
 
 testtask:
   jwt:
-    secret: supersecretstringforjwtgeneration
+    secret: c3VwZXJzZWNyZXRzdHJpbmdmb3Jqd3RnZW5lcmF0aW9u
     lifetime: 3600
+    issuer: testtask
