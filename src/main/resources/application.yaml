@@ -8,3 +8,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
+testtask:
+  jwt:
+    secret: supersecretstringforjwtgeneration
+    lifetime: 3600

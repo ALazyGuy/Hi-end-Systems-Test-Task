@@ -1,0 +1,40 @@
+package com.ltp.hiendsystemstesttask.util;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.time.Instant;
+
+@Component
+public class JwtUtils {
+
+    @Value("${testtask.jwt.secret}")
+    private String secret;
+    @Value("${testtask.jwt.lifetime}")
+    private long lifetime;
+    private Algorithm algorithm;
+
+    public String generateToken(final String username) {
+        try {
+            final String token = JWT.create()
+                    .withSubject(username)
+                    .withIssuedAt(Instant.now())
+                    .withIssuedAt(Instant.now().plusSeconds(lifetime))
+                    .sign(algorithm);
+            return token;
+        } catch (JWTCreationException e) {
+            e.printStackTrace();
+            return new String();
+        }
+    }
+
+    @PostConstruct
+    private void init() {
+        algorithm = Algorithm.HMAC256(secret);
+    }
+
+}
