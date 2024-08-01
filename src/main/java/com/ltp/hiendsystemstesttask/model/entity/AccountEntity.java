@@ -11,6 +11,7 @@ public class AccountEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int money;
+    @Column(name = "is_active")
     private boolean isActive;
     @OneToOne(mappedBy = "account")
     private UserEntity userEntity = null;

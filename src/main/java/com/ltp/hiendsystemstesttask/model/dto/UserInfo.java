@@ -1,4 +1,4 @@
 package com.ltp.hiendsystemstesttask.model.dto;
 
-public record UserInfo(String username, boolean isAdmin) {
+public record UserInfo(String username, boolean isAdmin, AccountInfo account) {
 }

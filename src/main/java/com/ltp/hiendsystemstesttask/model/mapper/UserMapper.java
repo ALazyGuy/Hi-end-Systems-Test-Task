@@ -1,5 +1,6 @@
 package com.ltp.hiendsystemstesttask.model.mapper;
 
+import com.ltp.hiendsystemstesttask.model.dto.AccountInfo;
 import com.ltp.hiendsystemstesttask.model.dto.UserInfo;
 import com.ltp.hiendsystemstesttask.model.entity.UserEntity;
 import lombok.AccessLevel;
@@ -14,7 +15,9 @@ public class UserMapper {
         if(Objects.isNull(userEntity)){
             return null;
         }
-        return new UserInfo(userEntity.getUsername(), userEntity.getUserRole().isAdmin());
+
+        return new UserInfo(userEntity.getUsername(), userEntity.getUserRole().isAdmin(),
+                AccountMapper.toAccountInfo(userEntity.getAccount()));
     }
 
 }
