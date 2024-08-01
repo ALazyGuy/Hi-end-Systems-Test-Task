@@ -34,7 +34,6 @@ public class JwtUtils {
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException e) {
-            e.printStackTrace();
             return new String();
         }
     }
@@ -44,7 +43,6 @@ public class JwtUtils {
             final DecodedJWT decodedJWT = jwtVerifier.verify(token);
             return Optional.of(decodedJWT);
         }catch(JWTVerificationException e) {
-            e.printStackTrace();
             return Optional.empty();
         }
     }
