@@ -16,6 +16,9 @@ public class UserEntity {
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private AccountEntity account = null;
 
     @Override
     public String toString() {
@@ -40,7 +43,8 @@ public class UserEntity {
         return id == userEntity.getId()
                 && username.equals(userEntity.getUsername())
                 && passHash.equals(userEntity.getPassHash())
-                && userRole == userEntity.getUserRole();
+                && userRole == userEntity.getUserRole()
+                && hashCode() == o.hashCode();
     }
 }
 
