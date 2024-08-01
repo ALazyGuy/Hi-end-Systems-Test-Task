@@ -16,8 +16,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -118,5 +120,13 @@ public class UserServiceImpl implements UserService {
         }
 
         return Optional.empty();
+    }
+
+    @Override
+    public List<UserInfo> getAllUsersInfo() {
+        final List<UserEntity> users = userRepository.findAllByUserRole(UserRole.ROLE_USER);
+        return users.stream()
+                .map(UserMapper::entityToUserInfo)
+                .collect(Collectors.toList());
     }
 }

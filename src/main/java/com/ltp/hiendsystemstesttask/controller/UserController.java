@@ -7,9 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -47,6 +49,12 @@ public class UserController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.status(HttpStatus.FOUND).body(errors);
+    }
+
+    @GetMapping("/allUsersInfo")
+    @Secured("ROLE_ADMIN")
+    public List<UserInfo> allUsersInfo() {
+        return userService.getAllUsersInfo();
     }
 
 }
