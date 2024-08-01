@@ -1,17 +1,23 @@
 package com.ltp.hiendsystemstesttask.service.impl;
 
 import com.ltp.hiendsystemstesttask.model.dto.JwtResponse;
+import com.ltp.hiendsystemstesttask.model.dto.UserInfo;
 import com.ltp.hiendsystemstesttask.model.dto.UserLoginRequest;
 import com.ltp.hiendsystemstesttask.model.dto.UserRegisterRequest;
 import com.ltp.hiendsystemstesttask.model.entity.UserEntity;
 import com.ltp.hiendsystemstesttask.model.entity.UserRole;
+import com.ltp.hiendsystemstesttask.model.mapper.UserMapper;
 import com.ltp.hiendsystemstesttask.repository.UserRepository;
 import com.ltp.hiendsystemstesttask.service.UserService;
 import com.ltp.hiendsystemstesttask.util.JwtUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -58,5 +64,17 @@ public class UserServiceImpl implements UserService {
         final String token = jwtUtils.generateToken(userLoginRequest.getUsername());
         final JwtResponse response = new JwtResponse(token);
         return Optional.of(response);
+    }
+
+    @Override
+    public Optional<UserInfo> getUserInfo() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(Objects.nonNull(authentication)) {
+            final String username = authentication.getName();
+            final Optional<UserEntity> userEntity = userRepository.findByUsername(username);
+            return userEntity.map(UserMapper::entityToUserInfo);
+        }
+
+        return Optional.empty();
     }
 }

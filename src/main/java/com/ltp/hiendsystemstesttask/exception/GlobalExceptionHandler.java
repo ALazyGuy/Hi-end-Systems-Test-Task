@@ -7,17 +7,17 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity validationException(final MethodArgumentNotValidException e) {
-        final Map<String, String> errors = new HashMap<>();
+        final List<String> errors = new LinkedList<>();
         e.getBindingResult().getFieldErrors()
-                .forEach(err -> errors.put(err.getField(), err.getDefaultMessage()));
+                .forEach(err -> errors.add(err.getDefaultMessage()));
         final ErrorResponse response = new ErrorResponse(errors);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
