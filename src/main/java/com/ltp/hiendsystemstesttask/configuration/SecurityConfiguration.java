@@ -4,6 +4,7 @@ import com.ltp.hiendsystemstesttask.filter.JwtFilter;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +27,7 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .formLogin(formLogin -> formLogin.disable())
                 .authorizeHttpRequests(requests -> requests
+                    .requestMatchers(HttpMethod.OPTIONS, "**").permitAll()
                     .requestMatchers("/api/v1/auth/*").anonymous()
                     .anyRequest().authenticated());
 
