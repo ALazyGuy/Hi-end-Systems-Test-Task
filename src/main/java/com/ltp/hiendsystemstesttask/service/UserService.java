@@ -14,4 +14,5 @@ public interface UserService {
     String withdrawMoney(final AccountActionRequest accountActionRequest);
     String depositMoney(final AccountActionRequest accountActionRequest);
     List<UserInfo> getAllUsersInfo();
+    void changeUserAccountStatus(final ChangeAccountStatusRequest changeAccountStatusRequest);
 }

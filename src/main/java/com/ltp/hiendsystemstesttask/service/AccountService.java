@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 public interface AccountService {
     AccountEntity deposit(final AccountEntity accountEntity, final int amount) throws AccountActionException;
     AccountEntity withdraw(final AccountEntity accountEntity, final int amount) throws AccountActionException;
+    AccountEntity changeStatus(final AccountEntity accountEntity, final boolean enabled);
 }

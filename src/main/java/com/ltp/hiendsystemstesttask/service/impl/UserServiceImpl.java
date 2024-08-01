@@ -129,4 +129,25 @@ public class UserServiceImpl implements UserService {
                 .map(UserMapper::entityToUserInfo)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void changeUserAccountStatus(final ChangeAccountStatusRequest changeAccountStatusRequest) {
+        final Optional<UserEntity> userEntityOptional
+                = userRepository.findByUsername(changeAccountStatusRequest.getUsername());
+
+        if(userEntityOptional.isEmpty()) {
+            return;
+        }
+
+        final UserEntity userEntity = userEntityOptional.get();
+
+        if(Objects.isNull(userEntity.getAccount())) {
+            return;
+        }
+
+        userEntity.setAccount(accountService.changeStatus(userEntity.getAccount(),
+                changeAccountStatusRequest.isStatus()));
+        userRepository.save(userEntity);
+    }
+
 }

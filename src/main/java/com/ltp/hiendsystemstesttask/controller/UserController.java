@@ -1,6 +1,7 @@
 package com.ltp.hiendsystemstesttask.controller;
 
 import com.ltp.hiendsystemstesttask.model.dto.AccountActionRequest;
+import com.ltp.hiendsystemstesttask.model.dto.ChangeAccountStatusRequest;
 import com.ltp.hiendsystemstesttask.model.dto.UserInfo;
 import com.ltp.hiendsystemstesttask.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -55,6 +56,12 @@ public class UserController {
     @Secured("ROLE_ADMIN")
     public List<UserInfo> allUsersInfo() {
         return userService.getAllUsersInfo();
+    }
+
+    @PutMapping("/changeAccountStatus")
+    @Secured("ROLE_ADMIN")
+    public void changeAccount(@RequestBody ChangeAccountStatusRequest changeAccountStatusRequest) {
+        userService.changeUserAccountStatus(changeAccountStatusRequest);
     }
 
 }

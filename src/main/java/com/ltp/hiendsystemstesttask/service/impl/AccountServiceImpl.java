@@ -40,4 +40,11 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(accountEntity);
         return accountEntity;
     }
+
+    @Override
+    public AccountEntity changeStatus(final AccountEntity accountEntity, final boolean enabled) {
+        accountEntity.setActive(enabled);
+        accountRepository.save(accountEntity);
+        return accountEntity;
+    }
 }
